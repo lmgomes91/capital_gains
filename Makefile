@@ -1,32 +1,46 @@
+# Makefile for Capital Gains Tax Calculator
+
 # Variables
 PYTHON = python3
-SRC_DIR = src
-TEST_DIR = tests
 MAIN = main.py
 
 # Default target
 .PHONY: all
-all: test run
+all: clean test run clean
 
 # Run the application
 .PHONY: run
-run:
+run: clean
 	@echo "Running Capital Gains Tax Calculator..."
 	@echo "Enter JSON operations, one line per simulation. Empty line to finish."
 	@$(PYTHON) $(MAIN)
+	@$(MAKE) clean
 
 # Run tests
 .PHONY: test
-test:
+test: clean
 	@echo "Running tests..."
 	@$(PYTHON) -m unittest discover -v
+	@$(MAKE) clean
 
 # Run tests with coverage
 .PHONY: coverage
-coverage:
+coverage: clean
 	@echo "Running tests with coverage..."
+	@$(PYTHON) -m pip install coverage
 	@$(PYTHON) -m coverage run -m unittest discover
 	@$(PYTHON) -m coverage report -m
+	@$(MAKE) clean
+
+# Run tests with HTML coverage report
+.PHONY: coverage-html
+coverage-html: clean
+	@echo "Running tests with HTML coverage report..."
+	@$(PYTHON) -m pip install coverage
+	@$(PYTHON) -m coverage run -m unittest discover
+	@$(PYTHON) -m coverage html
+	@echo "HTML coverage report generated in htmlcov/index.html"
+	@$(MAKE) clean
 
 # Clean up Python cache files
 .PHONY: clean
@@ -42,27 +56,14 @@ clean:
 	@find . -type d -name ".pytest_cache" -exec rm -rf {} +
 	@echo "Clean complete!"
 
-# Install dependencies
-.PHONY: install
-install:
-	@echo "Installing dependencies..."
-	@$(PYTHON) -m pip install -r requirements.txt
-
-# Create requirements.txt
-.PHONY: requirements
-requirements:
-	@echo "Creating requirements.txt..."
-	@$(PYTHON) -m pip freeze > requirements.txt
-
 # Help
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  all         - Run tests and then the application"
-	@echo "  run         - Run the application"
-	@echo "  test        - Run all tests"
-	@echo "  coverage    - Run tests with coverage report"
-	@echo "  clean       - Remove Python cache files"
-	@echo "  install     - Install dependencies"
-	@echo "  requirements - Create requirements.txt file"
-	@echo "  help        - Show this help message"
+	@echo "  all         	- Run clean, tests, application, and clean again"
+	@echo "  run         	- Clean, run the application, then clean again"
+	@echo "  test        	- Clean, run all tests, then clean again"
+	@echo "  coverage    	- Clean, run tests with coverage report, then clean again"
+	@echo "  coverage-html  - Clean, run tests with coverage report, generate html report, then clean again"
+	@echo "  clean       	- Remove Python cache files"
+	@echo "  help        	- Show this help message"
