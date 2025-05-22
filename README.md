@@ -31,17 +31,9 @@ O projeto utiliza apenas a biblioteca padrão do Python, sem dependências exter
 
 - Python 3.11.12 ou superior
 - Não são necessárias bibliotecas externas, apenas a biblioteca padrão do Python
-
+- Docker (opcional)
 
 ## Como Executar
-
-```bash
-# Executar a aplicação
-python main.py
-
-# Ou usando o Makefile
-make run
-```
 
 ### Formato de Entrada
 ```json
@@ -53,20 +45,55 @@ make run
 [{"tax": 0.0}, {"tax": 0.0}]
 ```
 
-## Como Executar os Testes
+### Execução Direta
+```bash
+# Executar a aplicação
+python main.py
+```
+
+### Usando Makefile
+```bash
+# Executar a aplicação
+make run
+```
+
+### Usando Docker
+```bash
+# Construir a imagem
+docker build -t capital-gains-tax .
+
+# Executar a aplicação em modo interativo
+docker run -it capital-gains-tax
+```
+
+## Testes
+
+O projeto inclui testes unitários e de integração abrangentes que cobrem todos os casos de uso especificados no enunciado.
+
+### Executando Testes
 
 ```bash
-# Executar todos os testes
+# Diretamente
 python -m unittest discover
 
-# Ou usando o Makefile
+# Via Makefile
 make test
 
-# Executar com relatório de cobertura
+# Via Docker
+docker run -it capital-gains-tax python -m unittest discover
+```
+
+### Cobertura de Testes
+
+```bash
+# Relatório de cobertura via Makefile
 make coverage
 
-# Gerar relatório HTML de cobertura
+# Relatório HTML de cobertura via Makefile
 make coverage-html
+
+# Relatório de cobertura via Docker
+docker run -it capital-gains-tax bash -c "pip install coverage && python -m coverage run -m unittest discover && python -m coverage report -m"
 ```
 
 ## Notas Adicionais
