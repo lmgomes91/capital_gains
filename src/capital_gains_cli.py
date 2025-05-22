@@ -4,9 +4,7 @@ Main module that implements the command line interface for tax calculation.
 
 import sys
 import json
-from typing import List, Dict, Any
 
-from src.models.operation import Operation
 from src.services.tax_calculator import TaxCalculator
 from src.utils.json_utils import parse_operations, format_results
 

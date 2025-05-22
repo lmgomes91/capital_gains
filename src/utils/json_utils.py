@@ -4,7 +4,7 @@ Utility module for JSON processing and formatting.
 
 import json
 from decimal import Decimal
-from typing import List, Dict, Any
+from typing import List
 
 from src.models.operation import Operation
 from src.models.tax_result import TaxResult

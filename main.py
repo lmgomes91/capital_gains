@@ -2,7 +2,7 @@
 Main entry point for the capital gains tax calculation application.
 """
 
-from src.cli import CapitalGainsCLI
+from src.capital_gains_cli import CapitalGainsCLI
 
 
 def main():
