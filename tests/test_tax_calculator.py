@@ -110,6 +110,22 @@ class TestTaxCalculator(unittest.TestCase):
         self.calculator._update_weighted_average(Decimal('20'), 5)
         self.assertEqual(self.calculator.weighted_average_price, Decimal('13.33'))
 
+    def test_profit_fully_offset_by_accumulated_loss(self):
+        calculator = TaxCalculator()
+        
+        calculator._update_weighted_average(Decimal('10'), 5000)
+        
+        
+        tax = calculator._calculate_sell_tax(Decimal('5'), 2000)
+        
+        self.assertEqual(tax, Decimal('0'))
+        self.assertEqual(calculator.accumulated_loss, Decimal('10000'))
+        
+        tax = calculator._calculate_sell_tax(Decimal('15'), 1500)
+        
+        self.assertEqual(tax, Decimal('0'))
+        self.assertEqual(calculator.accumulated_loss, Decimal('2500'))
+
 
 if __name__ == "__main__":
     unittest.main()

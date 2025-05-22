@@ -44,6 +44,10 @@ class TestJsonUtils(unittest.TestCase):
         
         self.assertEqual(parsed_data["value"], 123.45)
 
+    def test_decimal_encoder_raises_type_error(self):
+        self.assertRaises(TypeError, json.dumps, b'123', cls=DecimalEncoder)
+       
+
 
 if __name__ == "__main__":
     unittest.main()

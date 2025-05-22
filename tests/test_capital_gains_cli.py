@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
-Integration tests for the command line interface module.
-"""
-
 import unittest
 import io
 import sys
@@ -58,6 +51,14 @@ class TestCapitalGainsCLI(unittest.TestCase):
         self.cli.run()
         
         expected_output = 'Error: Invalid JSON format\n'
+        self.assertEqual(mock_stdout.getvalue(), expected_output)
+
+    @patch('sys.stdin', io.BytesIO(b'{"operation":"buy", "unit-cost":10.00, "quantity": 100}\n'))
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_run_with_invalid_value(self, mock_stdout):
+        self.cli.run()
+        
+        expected_output = "Error: string indices must be integers, not 'str'\n"
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 
 
